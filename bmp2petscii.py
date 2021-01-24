@@ -9,11 +9,15 @@ if(len(sys.argv)==1):
 
 
 im = Image.open(sys.argv[1], 'r')
-im = ImageOps.invert(im)
-if(len(sys.argv)==2):
-	im = im.convert('1',dither=Image.NONE)
-else:
+
+if("-invert" in sys.argv):
+    im = ImageOps.invert(im)
+
+
+if("-dither" in sys.argv):
 	im = im.convert('1')
+else:
+   	im = im.convert('1',dither=Image.NONE)
 
 
 pixels = list(im.getdata())
