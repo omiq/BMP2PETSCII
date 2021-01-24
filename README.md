@@ -5,8 +5,12 @@ Converts .bmp file into PETSCII array
 
 Currently requires dimensions to be 80x50
 
-Usage:  python3 bmp2petscii.py [filename] [dither]
+Usage:  python3 bmp2petscii.py [filename] [-dither] [-invert]
 
-Omit second parameter for no dither
+eg.
 
-Currently no option to stop reverse/negative image so needs ```im = ImageOps.invert(im)``` commenting out if you need that
+ python3 bmp2petscii.py success.bmp -dither
+ 
+ python3 bmp2petscii.py success.bmp -invert -dither
+ 
+ python3 bmp2petscii.py success.bmp -invert 
