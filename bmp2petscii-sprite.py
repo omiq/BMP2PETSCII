@@ -69,10 +69,16 @@ def pad_image(im, pad=1):
     return out
 
 def shift_image(im, dx, dy):
-    """Shift the view by (dx, dy): out[x,y] = im[x+dx, y+dy]. Paste at (-dx,-dy)."""
+    """Shift the view by (dx, dy): out[x,y] = im[x+dx, y+dy]. Copy with bounds check so we never read past source (fixes E, SE, S, SW)."""
     w, h = im.size
+    src = im.load()
     out = Image.new("1", (w, h), 0)
-    out.paste(im, (-dx, -dy))
+    dst = out.load()
+    for y in range(h):
+        for x in range(w):
+            sx, sy = x + dx, y + dy
+            if 0 <= sx < w and 0 <= sy < h:
+                dst[x, y] = src[sx, sy]
     return out
 
 def image_to_petscii(im, transparent=0):
