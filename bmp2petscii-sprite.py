@@ -76,15 +76,9 @@ def shift_image(im, dx, dy):
     return out
 
 def image_to_petscii(im, transparent=0):
+    """Convert image to PETSCII block chars. im is already padded by caller."""
     w, h = im.size
     px = im.load()
-
-
-    padded = Image.new("1", (w + 2, h + 2), 0)
-    padded.paste(im, (0, 0))
-    im = padded
-    px = im.load()
-    w, h = im.size
 
     rows = []
     flat = []
@@ -148,6 +142,7 @@ def main():
     for name, dx, dy in SHIFTS:
         # because we padded by 1, shifting is just pasting with offset
         shifted = shift_image(padded, dx, dy)
+        shifted.save(f"{name}-{dx}-{dy}.bmp")
         rows, flat, cw, ch = image_to_petscii(shifted, transparent=transparent)
         emit_block(name, rows, flat, cw, ch)
 
